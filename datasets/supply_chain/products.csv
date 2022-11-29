@@ -1,0 +1,17 @@
+Product_id,Product_name,Price,Producer
+1,Steel rods,2,5
+2,Rubber,1,10
+2,Rubber,2,11
+3,Aluminium rods,14,5
+4,Truck wheel set,2000,1
+5,Tires,100,2
+6,Car wheel set,1000,12
+6,Car wheel set,1200,3
+7,Car rims,80,4
+8,Belts,50,9
+9,Truck rims,110,15
+10,Sensor,28,8
+11,Controller,32,8
+12,ABS module,32,14
+13,TPM Assembly,99,13
+14,Valve stem,30,7
