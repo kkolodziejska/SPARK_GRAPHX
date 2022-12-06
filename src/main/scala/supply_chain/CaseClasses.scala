@@ -1,15 +1,15 @@
 package supply_chain
 
 
-class VertexProperty()
-class EdgeProperty()
+trait VertexProperty{ def vertexType: String}
+trait EdgeProperty{ def relationshipName: String}
 
-case class Factory(site_id: Int, site_name: String, site_type: String) extends VertexProperty
+case class Factory(vertexType: String, siteId: Int, siteName: String, siteType: String) extends VertexProperty
 
-case class Product(product_id: Int, product_name: String) extends VertexProperty
+case class Product(vertexType: String, productId: Int, productName: String) extends VertexProperty
 
-case class Produces(relationship_name: String, price: Double) extends EdgeProperty
+case class Produces(relationshipName: String, price: Double) extends EdgeProperty
 
-case class UsedBy(relationship_name: String, amount: Int) extends EdgeProperty
+case class UsedBy(relationshipName: String, amount: Int) extends EdgeProperty
 
-case class DeliversTo(relationship_name: String, item_id: Int, route_km: Double, cost: Double) extends EdgeProperty
+case class DeliversTo(relationshipName: String, itemId: Long, routeKm: Double, cost: Double) extends EdgeProperty

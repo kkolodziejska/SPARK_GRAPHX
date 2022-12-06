@@ -22,8 +22,8 @@ object Utilities {
       .map(line => {
         val lineList = line.split(",")
         vertexType match {
-          case "factory" => (lineList(0).toLong, Factory(lineList(0).toInt, lineList(1), lineList(2)))
-          case "product" => (lineList(0).toLong + 100L, Product(lineList(0).toInt, lineList(1)))
+          case "factory" => (lineList(0).toLong, Factory(vertexType, lineList(0).toInt, lineList(1), lineList(2)))
+          case "product" => (lineList(0).toLong + 100L, Product(vertexType, lineList(0).toInt, lineList(1)))
         }
       })
   }
@@ -39,10 +39,11 @@ object Utilities {
         val lineList = line.split(",")
         edgeType match {
           case "factoryToProduct" =>
-            Edge(lineList(3).toLong, lineList(0).toLong + 100L, Produces("produces", lineList(2).toDouble))
+            Edge(lineList(3).toLong, lineList(0).toLong + 100L,
+              Produces("produces", lineList(2).toDouble))
           case "factoryToFactory" =>
             Edge(lineList(0).toLong, lineList(1).toLong,
-              DeliversTo("delivers to", lineList(2).toInt, lineList(3).toDouble, lineList(4).toDouble))
+              DeliversTo("delivers to", lineList(2).toLong + 100L, lineList(3).toDouble, lineList(4).toDouble))
           case "productToProduct" =>
             Edge(lineList(0).toLong + 100L, lineList(1).toLong + 100L, UsedBy("used by", lineList(2).toInt))
         }
@@ -72,11 +73,11 @@ object Utilities {
 
   def getAllRelationships(graph: Graph[VertexProperty, EdgeProperty]): RDD[String] = {
     graph.triplets.map(triplet => (triplet.srcAttr, triplet.attr, triplet.dstAttr) match {
-      case (Factory(_, site, _), Produces(rel, _), Product(_, product)) =>
+      case (Factory(_,_, site, _), Produces(rel, _), Product(_,_, product)) =>
         site + " " + rel + " " + product
-      case (Factory(_, site1, _), DeliversTo(rel, _, _, _), Factory(_, site2, _)) =>
+      case (Factory(_,_, site1, _), DeliversTo(rel, _, _, _), Factory(_,_, site2, _)) =>
         site1 + " " + rel + " " + site2
-      case (Product(_, product1), UsedBy(rel, _), Product(_, product2)) =>
+      case (Product(_,_, product1), UsedBy(rel, _), Product(_,_, product2)) =>
         product1 + " is " + rel + " " + product2
       case _ => "WRONG RELATIONSHIP"
     })
